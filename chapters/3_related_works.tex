@@ -1,0 +1,19 @@
+\section{Related works}
+So far, there are mainly two quantum processor control architectures: distributed and centralized which adopt different kinds of quantum assembly languages.
+A quantum application programmed by quantum high-level language is firstly compiled into quantum assembly language (QASM)-based instructions. 
+In addition to converting the quantum application into a circuit model, the compiler also optimizes the types and combinations of quantum gates according to the underlying constraints of the quantum equipment. 
+According to the executable degree of quantum assembly language, it is mainly divided into two categories. 
+
+For non-executable QASM, which are mainly intermediate representations of quantum circuit without considering the low-level constraints to interface with the quantum processor, such as QPOL, Quil, and openQASM, 
+a distributed architecture is generally used for the control of quantum processor,such as Raytheon BBN APS2 system and the control system of Sycamore, the latest quantum processor of Google. The underlying compiler generates quantum gates sequence of each qubit according to the quantum intermediate representation, 
+and converts it into a low-level instructions that can be directly executed by the waveform generation module, such as jump table or waveform address. When the quantum application is executed, 
+the central control module triggers each waveform generation module synchronously, which executes low-level instructions and applies the corresponding waveform to each qubit. 
+In a word, the central control module is only responsible for scheduling, and waveform splicing and applying are implemented in each waveform generation in the unit of qubit.
+
+Fu. proposed an executable quantum assembly language, which can be directly executed by the centralized control architecture (QuMA\_V2), 
+and generating precise control waveform sequences in runtime by instruction execution. 
+In the non-deterministic timing domain, the central control module executes instructions based on eQASM and buffers events of quantum gates for each qubit in event queues in the order of execution time points. 
+Since the program flow and data transmission can be controlled more flexibly through instructions, this scheme is more suitable for feedback control based on measurement results. On the other hand, 
+the deterministic timing domain is controlled by the Timing Controller to trigger buffered events of each qubit when the time point arrived, and the waveform generation module executes events to apply corresponding waveforms. 
+In addition to the flexibility, by decoupling the timing of executing instructions and performing output, 
+it can maintain fully deterministic timing of the output and maximally process instructions during waiting, providing possibilities for hybrid quantum computing.
